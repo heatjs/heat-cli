@@ -2,6 +2,9 @@
   "name": "heat-evoke",
   "version": "0.0.2",
   "description": "Terminal CLI for Heat Cluster Management",
+  "bin": {
+    "heat-evoke": "./main.js"
+  },
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
