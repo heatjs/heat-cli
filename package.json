@@ -1,6 +1,6 @@
 {
   "name": "heat-evoke",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Terminal CLI for Heat Cluster Management",
   "bin": {
     "heat-evoke": "./main.js"
