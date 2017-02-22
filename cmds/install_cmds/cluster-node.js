@@ -68,7 +68,7 @@ exports.handler = (argv) => {
   console.log(result)
 
   // add config file to heat cluster node
-  var confifYamlPath = path.join('/opt', 'heat-cluster-node', 'config', 'production.yaml')
+  var configYamlPath = path.join('/opt', 'heat-cluster-node', 'config', 'production.yaml')
   fs.writeFileSync(configYamlPath, configYaml)
 
   // Setup correct folder owner
