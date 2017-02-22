@@ -57,19 +57,23 @@ exports.handler = (argv) => {
   }
   var configYaml = yaml.safeDump(config)
 
+  // Add heat user
+  result = execSync('sudo useradd -p $(openssl passwd -1 "' + argv.password + '") heat')
+  console.log(result)
+
   // Install pm2
-  var result = execSync('npm install -g pm2')
+  var result = execSync('sudo -u heat npm install -g pm2')
   console.log(result)
 
   // Install heat cluster node
-  result = execSync('sudo useradd -p $(openssl passwd -1 "' + argv.password + '") heat')
-  console.log(result)
-  result = execSync('sudo git clone https://github.com/heatjs/heat-cluster-node.git /opt/heat-cluster-node')
+  result = execSync('git clone https://github.com/heatjs/heat-cluster-node.git ~/heat-cluster-node')
   console.log(result)
 
   // add config file to heat cluster node
-  var configYamlPath = path.join('/opt', 'heat-cluster-node', 'config', 'production.yaml')
+  var configYamlPath = path.join('~/heat-cluster-node', 'config', 'production.yaml')
   fs.writeFileSync(configYamlPath, configYaml)
+
+  result = execSync('sudo mv ~/heat-cluster-node /opt')
 
   // Setup correct folder owner
   result = execSync('sudo chown -R heat.users /opt/heat-cluster-node')
@@ -79,7 +83,7 @@ exports.handler = (argv) => {
   result = execSync('sudo -u heat pm2 start /opt/heat-cluster-node')
   console.log(result)
 
-  result = execSync('sudo pm2 startup -u heat --hp /home/heat/.pm2')
+  result = execSync('sudo -u heat pm2 startup -u heat --hp /home/heat/.pm2')
   var resultLines = result.split("\n")
   console.log(resultLines[1])
   result = exexSync(resultLines[1])
