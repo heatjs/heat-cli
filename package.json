@@ -1,0 +1,25 @@
+{
+  "name": "heat-cli",
+  "version": "0.0.1",
+  "description": "Terminal CLI for Heat",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/heatjs/heat-cli.git"
+  },
+  "keywords": [
+    "Heat",
+    "Cluster",
+    "Management",
+    "Cli"
+  ],
+  "author": "Katja Lutz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/heatjs/heat-cli/issues"
+  },
+  "homepage": "https://github.com/heatjs/heat-cli#readme"
+}
