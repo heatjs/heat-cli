@@ -1,14 +1,14 @@
 {
-  "name": "heat-cli",
+  "name": "heat-evoke",
   "version": "0.0.1",
-  "description": "Terminal CLI for Heat",
+  "description": "Terminal CLI for Heat Cluster Management",
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/heatjs/heat-cli.git"
+    "url": "git+https://github.com/heatjs/heat-evoke.git"
   },
   "keywords": [
     "Heat",
@@ -19,7 +19,7 @@
   "author": "Katja Lutz",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/heatjs/heat-cli/issues"
+    "url": "https://github.com/heatjs/heat-evoke/issues"
   },
-  "homepage": "https://github.com/heatjs/heat-cli#readme"
+  "homepage": "https://github.com/heatjs/heat-evoke#readme"
 }
