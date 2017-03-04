@@ -1,7 +1,7 @@
 var bcrypt = require('bcrypt')
 
-exports.command = 'cluster-node'
-exports.desc = 'Installs and configures single node'
+exports.command = 'daemon'
+exports.desc = 'Installs the heat daemon'
 exports.builder = (yargs) => {
   yargs
     .option('t', {
@@ -57,36 +57,33 @@ exports.handler = (argv) => {
   }
   var configYaml = yaml.safeDump(config)
 
-  // Add heat user
-  result = execSync('sudo useradd -p $(openssl passwd -1 "' + argv.password + '") heat')
-  console.log(result)
+  var repoHolder = 'heatjs'
+  var repoName = 'heat-daemon'
+  var env = {
+    repoUrl: `https://github.com/${repoHolder}/${repoName}.git`,
+    user: 'heat',
+    daemonTempPath: path.join('~', repoName),
+    configYamlPath: path.join('~/', repoName, 'config', 'production.yaml'),
+    daemonInstallPath: path.join('/opt', repoName)
+  }
 
-  // Install pm2
-  var result = execSync('sudo -u heat npm install -g pm2')
+  // Add heat user
+  var result = execSync(`sudo useradd -p $(openssl passwd -1 "${argv.password}") ${env.user}`)
   console.log(result)
 
   // Install heat cluster node
-  result = execSync('git clone https://github.com/heatjs/heat-cluster-node.git ~/heat-cluster-node')
+  result = execSync(`git clone ${env.repoUrl} ${env.daemonTempPath}`)
   console.log(result)
 
   // add config file to heat cluster node
-  var configYamlPath = path.join('~/heat-cluster-node', 'config', 'production.yaml')
-  fs.writeFileSync(configYamlPath, configYaml)
+  fs.writeFileSync(env.configYamlPath, configYaml)
 
-  result = execSync('sudo mv ~/heat-cluster-node /opt')
+  result = execSync(`sudo mv ${env.daemonTempPath} /opt`)
 
   // Setup correct folder owner
-  result = execSync('sudo chown -R heat.users /opt/heat-cluster-node')
+  result = execSync(`sudo chown -R ${env.user}.users /opt/heat-daemon`)
   console.log(result)
 
-  // Register and start pm2
-  result = execSync('sudo -u heat pm2 start /opt/heat-cluster-node')
-  console.log(result)
-
-  result = execSync('sudo -u heat pm2 startup -u heat --hp /home/heat/.pm2')
-  var resultLines = result.split("\n")
-  console.log(resultLines[1])
-  result = exexSync(resultLines[1])
+  result = execSync(`sudo -u ${env.user} npm --prefix install`)
   console.log(result)
 }
-
